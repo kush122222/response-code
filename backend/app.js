@@ -1,15 +1,17 @@
+require('dotenv').config();  // Load environment variables from .env file
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config/db'); // MongoDB connection function
+const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes'); // Auth routes import
 const responseRoutes = require('./routes/responseRoutes'); // Response routes import
 const filterRoutes = require('./routes/filterRoutes'); // Filter routes import
-require('dotenv').config();
 
 const app = express();
 
 // Connect to MongoDB
-connectDB();
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch((err) => console.error('Failed to connect to MongoDB Atlas', err));
 
 // Middleware
 app.use(express.json()); // Middleware to parse JSON request body
@@ -27,10 +29,6 @@ app.use(
 app.use('/api/auth', authRoutes); // Auth routes
 app.use('/api', responseRoutes); // Response routes
 app.use('/api', filterRoutes); // Filter routes
-
-// Debugging to ensure routers are imported correctly
-console.log('Auth Routes:', typeof authRoutes); // Should log 'function'
-console.log('Response Routes:', typeof responseRoutes); // Should log 'function');
 
 // Start the server
 const PORT = process.env.PORT || 5003;

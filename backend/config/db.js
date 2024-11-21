@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
     // Connect to MongoDB using your database URI
-    await mongoose.connect('mongodb://localhost:27017/weather_monitoring_system', {
+    await mongoose.connect('mongodb://localhost:27017/response-code-list', {
     });
     console.log('MongoDB connected successfully!');
   } catch (error) {

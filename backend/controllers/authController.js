@@ -54,11 +54,18 @@ exports.login = async (req, res) => {
 
     // Find user by email
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Log the user found (for debugging)
+    console.log('User found:', user.email);
 
     // Compare password with hashed password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
     // Generate JWT token with secure settings
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {

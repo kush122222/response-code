@@ -30,6 +30,11 @@ app.use('/api/auth', authRoutes); // Auth routes
 app.use('/api', responseRoutes); // Response routes
 app.use('/api', filterRoutes); // Filter routes
 
+// Root route
+app.get('/', (req, res) => {
+  res.send('Welcome to the Response Code API!');
+});
+
 // Start the server
 const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => {
